@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            background: url(car2.jpg);
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+             background-position: center;
+           background-size: cover;
+           background-repeat: no-repeat;
+        } 
+     /*   body{
+           background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url("games1.jpg");
+           background-position: center;
+           background-size: cover;
+           background-repeat: no-repeat;
+           width: 100%;
+           height: 100vh;
+       } */
+        #game{
+            height: 500px;
+            width: 390px;
+            border: 1px solid black;
+            margin: 1rem auto;
+            background: url(bg.jpg);
+            background-size: contain;
+            overflow: hidden;
+        }
+        #bluecar{
+            height: 100px;
+            width: 130px;
+        /*    background-color: black; */
+            position: relative;
+            top: 0px;
+            left: 0px;
+            animation: move 0.8s linear infinite;
+            text-align: center;
+        }
+        #bluecar img{
+            height: 100px;
+        }
+        @keyframes move{
+            0%{
+                top: 0px;
+            }
+            100%{
+                top: 501px;
+            }
+        }
+        #racecar{
+            height: 100px;
+            width: 130px;
+            /*background-color: rgb(255, 94, 0); */
+            position: relative;
+            top: 250px;
+            left: 130px;
+            text-align: center;
+        }
+        #racecar img{
+            height: 100px;
+        }
+        
+        #result{
+            height: 200px;
+            width: 400px;
+              /*background-color: cornflowerblue; */
+            background-color: rgb(56, 56, 56);
+            margin:  1rem auto;
+            border-radius: 20px;
+            font-size: 30px;
+            text-align: center;
+            color: white;
+            display:none ;
+        }
+        #score{
+            font-size: 2.2rem;
+            color: red;
+        }
+        #btn{
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+            background-color: black;
+            color: cyan;
+            font-size: 25px;
+            margin-top: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div id="game">
+        <div id="bluecar"><img src="blue.png"/></div>
+        <div id="racecar"><img src="race.png"/></div>
+    </div>
+    <div id="result">
+      <h1>Game Over</h1>
+      <p id="score"></p>
+      <button id="btn" onclick="location.reload()">Restart</button>
+    </div>
+    <audio id="jumpsound" src="jumpsound.mp3"></audio>
+     </div>
+
+    <script>
+        var bluecar=document.getElementById("bluecar");
+        var raceCar=document.getElementById("racecar");
+        var result=document.getElementById("result");
+        var game=document.getElementById("game");
+        const score=document.getElementById("score");
+        var counter=0;
+        var jumpsound=document.getElementById("jumpsound");
+ 
+        //blue car
+        bluecar.addEventListener("animationiteration",function(){
+            var random=((Math.floor(Math.random()*3))*130)
+            bluecar.style.left=random+"px";
+            counter++;
+        })
+        //race car
+        window.addEventListener("keydown", function(e){
+        if(e.keyCode == "39"){ var raceCarLeft = parseInt(window.getComputedStyle(racecar).getPropertyValue("left"))
+        if(raceCarLeft < 260){racecar.style.left = (raceCarLeft + 130) + "px"
+        jumpsound.play();}
+         };
+
+         if(e.keyCode == "37")
+         {
+        var raceCarLeft = parseInt(window.getComputedStyle(racecar).getPropertyValue("left"))
+        if(raceCarLeft > 0){racecar.style.left = (raceCarLeft - 130) + "px"
+        jumpsound.play();
+    }}
+    })
+///////game over
+    setInterval(function Gameover (){
+    var bluecartop = parseInt(window.getComputedStyle(bluecar).getPropertyValue("top"))
+    var bluecarleft = parseInt(window.getComputedStyle(bluecar).getPropertyValue("left"));
+    var racecarleft = parseInt(window.getComputedStyle(racecar).getPropertyValue("left"));
+        if((bluecarleft === racecarleft) && (bluecartop > 250) && (bluecartop < 450)){
+            result.style.display = "block";
+            game.style.display = "none";
+            score.innerHTML = `score: ${counter} `;
+
+            counter = 0;
+        }
+}, 10)
+     </script>
+</body>
+</html>
